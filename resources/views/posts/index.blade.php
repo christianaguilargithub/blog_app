@@ -45,11 +45,17 @@
                         {{ Str::limit($post->body, 180) }}
                     </p>
                     <div class="d-flex align-items-center gap-3">
-                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6c3bff,#ec4899);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.85rem;">
-                            {{ strtoupper(substr($post->user->name,0,1)) }}
-                        </div>
+                        <a href="{{ route('users.show', $post->user) }}" style="text-decoration:none;flex-shrink:0;">
+                            <img src="{{ $post->user->avatar_url }}"
+                                 alt="{{ $post->user->name }}"
+                                 style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid rgba(108,59,255,0.4);">
+                        </a>
                         <div>
-                            <div style="font-size:0.82rem;font-weight:600;color:#1a1a2e;">{{ $post->user->name }}</div>
+                            <a href="{{ route('users.show', $post->user) }}"
+                               style="font-size:0.82rem;font-weight:600;color:#1a1a2e;text-decoration:none;transition:color 0.2s;"
+                               onmouseover="this.style.color='#6c3bff'" onmouseout="this.style.color='#1a1a2e'">
+                                {{ $post->user->name }}
+                            </a>
                             <div style="font-size:0.75rem;color:#9ca3af;">{{ $post->created_at->diffForHumans() }}</div>
                         </div>
                         <a href="{{ route('posts.show', $post) }}" class="btn-primary-grad ms-auto" style="padding:0.5rem 1.2rem;font-size:0.85rem;">
@@ -79,11 +85,17 @@
         <div class="col-md-6 col-lg-4">
             <div class="card-modern h-100 p-4">
                 <div class="d-flex align-items-center gap-2 mb-3">
-                    <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#6c3bff,#ec4899);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.75rem;flex-shrink:0;">
-                        {{ strtoupper(substr($post->user->name,0,1)) }}
-                    </div>
+                    <a href="{{ route('users.show', $post->user) }}" style="text-decoration:none;flex-shrink:0;">
+                        <img src="{{ $post->user->avatar_url }}"
+                             alt="{{ $post->user->name }}"
+                             style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid rgba(108,59,255,0.35);">
+                    </a>
                     <div>
-                        <div style="font-size:0.78rem;font-weight:600;color:#1a1a2e;">{{ $post->user->name }}</div>
+                        <a href="{{ route('users.show', $post->user) }}"
+                           style="font-size:0.78rem;font-weight:600;color:#1a1a2e;text-decoration:none;display:block;transition:color 0.2s;"
+                           onmouseover="this.style.color='#6c3bff'" onmouseout="this.style.color='#1a1a2e'">
+                            {{ $post->user->name }}
+                        </a>
                         <div style="font-size:0.7rem;color:#9ca3af;">{{ $post->created_at->diffForHumans() }}</div>
                     </div>
                 </div>

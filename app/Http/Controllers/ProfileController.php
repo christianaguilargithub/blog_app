@@ -14,6 +14,12 @@ class ProfileController extends Controller
         return view('users.profile', compact('user'));
     }
 
+    public function showUser(\App\Models\User $user)
+    {
+        $user->load('posts');
+        return view('users.profile', compact('user'));
+    }
+
     public function update(Request $request)
     {
         $user = Auth::user();

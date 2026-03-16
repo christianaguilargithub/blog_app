@@ -264,19 +264,20 @@
                         Edit Profile
                     </h2>
 
-                    <form method="POST"
+                    <form id="profileForm"
+                          method="POST"
                           action="{{ route('profile.update') }}"
                           enctype="multipart/form-data"
                           novalidate>
                         @csrf
 
-                        {{-- Hidden avatar input --}}
+                        {{-- Avatar file input — inside the form so it submits with everything --}}
                         <input type="file"
                                id="avatarInput"
                                name="avatar"
                                accept="image/png,image/jpeg,image/webp"
                                class="hidden"
-                               onchange="previewAvatar(event)">
+                               onchange="handleAvatarChange(event)">
 
                         {{-- Name --}}
                         <div class="mb-4">
@@ -490,18 +491,36 @@
     </footer>
 
     <script>
-        function previewAvatar(event) {
+        function handleAvatarChange(event) {
             const file = event.target.files[0];
             if (!file) return;
+
             const reader = new FileReader();
-            reader.onload = e => {
-                document.getElementById('avatarPreview').src = e.target.result;
+
+            reader.onload = function(e) {
+                // 1. Update BOTH avatar images instantly (hero + any other)
+                document.querySelectorAll('#avatarPreview').forEach(img => {
+                    img.src = e.target.result;
+                });
+
+                // 2. Show uploading state on the camera button
+                const camBtn = document.querySelector('.avatar-preview-wrap label');
+                if (camBtn) {
+                    camBtn.innerHTML = '<i class="bi bi-arrow-repeat text-white text-sm" style="animation:spin 0.8s linear infinite"></i>';
+                }
+
+                // 3. Submit the form AFTER the preview is painted
+                requestAnimationFrame(() => {
+                    document.getElementById('profileForm').submit();
+                });
             };
+
             reader.readAsDataURL(file);
-            // Auto-submit the form after picking
-            event.target.closest('form') && event.target.closest('form').submit();
         }
     </script>
+    <style>
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
 
 </body>
 </html>

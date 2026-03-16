@@ -29,3 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
+
+// Public author page — must come after /profile to avoid conflict
+Route::get('/users/{user}', [ProfileController::class, 'showUser'])->name('users.show');
