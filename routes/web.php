@@ -1,7 +1,24 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+// Auth routes
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
 });
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Blog routes — static routes MUST come before wildcard {post}
+Route::get('/', [PostController::class, 'index'])->name('posts.index');
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create')->middleware('auth');
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store')->middleware('auth');
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit')->middleware('auth');
+Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update')->middleware('auth');
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
