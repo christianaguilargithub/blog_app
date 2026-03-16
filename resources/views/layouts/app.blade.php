@@ -351,9 +351,9 @@
 
             <div class="d-flex align-items-center gap-2">
                 @auth
-                    <span class="nav-user-badge">
+                    <a href="{{ route('profile.show') }}" class="nav-user-badge text-decoration-none" style="color:rgba(255,255,255,0.6);">
                         <i class="bi bi-person-circle me-1"></i>{{ Auth::user()->name }}
-                    </span>
+                    </a>
                     <a href="{{ route('posts.create') }}" class="btn-nav-primary">
                         <i class="bi bi-plus-lg"></i> Write
                     </a>
